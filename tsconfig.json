@@ -8,6 +8,7 @@
     "strict": true,              
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,                       
-    "skipLibCheck": true                                
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false                                
   }
 }
