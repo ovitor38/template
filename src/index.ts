@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-
-export const database = new PrismaClient ({
-  log:['error', 'info', 'query', 'warn']
+import { PrismaClient } from '@prisma/client'
+export const prisma = new PrismaClient({
+  log:['error', 'info', 'warn']
 })
 
