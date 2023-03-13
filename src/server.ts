@@ -1,8 +1,8 @@
 import express from "express";
 import "express-async-errors";
 import dotenv from "dotenv";
-import routes from "./routes";
 import { errorMiddleware } from "./middlewares/error";
+import apiRoutes from "./routes";
 dotenv.config();
 
 async function main() {
@@ -11,7 +11,7 @@ async function main() {
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use(routes);
+    app.use(apiRoutes);
     app.use(errorMiddleware)
 
     app.listen(process.env.PORT, () =>
