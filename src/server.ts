@@ -12,7 +12,7 @@ async function main() {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(apiRoutes);
-    app.use(errorMiddleware)
+    app.use(errorMiddleware);
 
     app.listen(process.env.PORT, () =>
       console.log(`Server Running on port ${process.env.PORT}`)
