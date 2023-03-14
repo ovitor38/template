@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { BadRequestError } from "../../helpers/api-errors";
 import { PARAM_TYPE_ERROR } from "../../helpers/constants/http-codes";
+import { validateIdNumber } from "../../validation/id-number.validation";
 import { userService } from "./user.service";
 export class UserController {
   async createUser(req: Request, res: Response): Promise<void | object> {
@@ -9,11 +10,9 @@ export class UserController {
   }
 
   async getOneUser(req: Request, res: Response) {
-    if (typeof req.params.id !== "number") {
-      throw new BadRequestError(PARAM_TYPE_ERROR);
-    }
     const { id } = req.params;
-    const user = await userService.getOneService(Number(id));
+    validateIdNumber(id);
+    const user = await userService.getOneService(+id);
     res.status(200).json(user);
   }
 
@@ -24,18 +23,14 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
-    if (typeof id !== "number") {
-      throw new BadRequestError(PARAM_TYPE_ERROR.replace('%PARAM%', id));
-  }
+    validateIdNumber(id);
     const deleteUser = await userService.deleteUserService(+id);
     res.status(200).json(deleteUser);
   }
 
   async updateUser(req: Request, res: Response) {
-    if (typeof req.params.id !== "number") {
-      throw new BadRequestError(PARAM_TYPE_ERROR);
-    }
-    const id = Number(req.params.id);
+    const { id } = req.params;
+    validateIdNumber(id);
     const { name, email } = req.body;
     const rawData = { id, name, email };
     const updateUser = await userService.updateuserService(rawData);
