@@ -1,11 +1,13 @@
 import { prisma } from "../../..";
+import { UserUpadateModel } from "../model/user.model";
 import { getOneuser } from "./get-one-user";
 
 class UpdateUser {
-  public async run(id: number, name?: string, email?: string) {
-    await getOneuser.run(id);
+  public async run(rawData: UserUpadateModel) {
+    await getOneuser.run(rawData.id);
+    const { id, name, email } = rawData;
 
-    return prisma.user.update({
+    await prisma.user.update({
       where: {
         id,
       },
@@ -14,6 +16,12 @@ class UpdateUser {
         email,
       },
     });
+    const data = {
+      ...(name && { name: name }),
+      ...(email && { email: email }),
+    };
+    const updatedFields = Object.keys(data).join(", ").toLocaleUpperCase();
+    return `The field(s) ${updatedFields} were updated in the user records.`;
   }
 }
 export const updateUser = new UpdateUser();
