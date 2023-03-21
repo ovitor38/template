@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Typescript",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": ["-r", "ts-node/register/transpile-only"],
+            "args": ["${workspaceFolder}/src"],
+            "sourceMaps": true,
+            "cwd": "${workspaceFolder}",
+            "protocol": "inspector"
+        }
+    ]
+}

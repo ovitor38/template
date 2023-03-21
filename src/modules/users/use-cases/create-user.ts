@@ -1,19 +1,17 @@
-import { prisma } from "../../..";
+// CreateUserService.ts
+import { UserRepositoryInterface } from "../../../repositorys/user-repository";
 import { UserModel } from "../model/user.model";
 
-class CreateUser {
-  public async run(rawData: UserModel) {
-    const user = await prisma.user.create({
-      data: {
-        name: rawData.name,
-        email: rawData.email,
-      },
-      select: {
-        name: true,
-        email: true,
-      },
-    });
+interface CreateUserRequest {
+  name: string;
+  email: string
+}
+
+export class CreateUser {
+  constructor(private readonly userRepository: UserRepositoryInterface) {}
+
+  async execute({name, email}: CreateUserRequest) {
+    const user = await this.userRepository.create({name, email});
     return [user, { success: true, errors: null }];
   }
 }
-export const createUser = new CreateUser();

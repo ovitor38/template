@@ -10,11 +10,11 @@ export const errorMiddleware = (
   next: NextFunction
 ) => {
   let statusCode = error.statusCode ?? 500;
-
+  
   if (error instanceof z.ZodError) {
     return res.status(400).json({ error: error.issues });
   }
-
+  
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P2025") {
       return res.status(404).json({ errorMessage: "Record not found" });
@@ -26,6 +26,7 @@ export const errorMiddleware = (
       });
     }
   }
-  const message = error.statusCode ? error.message : "Internal Server Error";
+  console.log(error)
+  const message = error.statusCode ? error.message : `Internal Server Error: ${ error.message}`;
   return res.status(statusCode).json({ message });
 };
