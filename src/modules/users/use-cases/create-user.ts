@@ -1,17 +1,18 @@
-// CreateUserService.ts
-import { UserRepositoryInterface } from "../../../repositorys/user-repository";
-import { UserModel } from "../model/user.model";
+import { IUserRepo } from "../../../repositorys/user-repository";
 
-interface CreateUserRequest {
+interface ICreateUserRequest {
   name: string;
-  email: string
+  email: string;
 }
 
 export class CreateUser {
-  constructor(private readonly userRepository: UserRepositoryInterface) {}
+  private userRepo: IUserRepo;
+  constructor(userRepo: IUserRepo) {
+    this.userRepo = userRepo;
+  }
 
-  async execute({name, email}: CreateUserRequest) {
-    const user = await this.userRepository.create({name, email});
+  async execute({ name, email }: ICreateUserRequest) {
+    const user = await this.userRepo.create({ name, email });
     return [user, { success: true, errors: null }];
   }
 }

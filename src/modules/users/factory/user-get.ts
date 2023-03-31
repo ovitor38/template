@@ -1,15 +1,15 @@
 import { UserRepository } from "../../../repositorys/user-repository";
-import { CreateUser } from "../use-cases";
+import { CreateUser, GetUser } from "../use-cases";
 import { UserController } from "../user.controller";
 import { UserService } from "../user.service";
 
 class CreateUserFactory {
   async handle(req, res) {
     const userRepository = new UserRepository();
-    const createUser = new CreateUser(userRepository);
-    const userCreateService = new UserService(createUser);
+    const getUser = new GetUser(userRepository);
+    const userCreateService = new UserService(getUser);
     const userController = new UserController(userCreateService);
-    await userController.createUser(req, res);
+    await userController.getUser(req, res);
   }
 }
 

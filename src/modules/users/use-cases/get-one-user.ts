@@ -1,14 +1,13 @@
-import { prisma } from "../../..";
+import { IUserRepo } from "../../../repositorys/user-repository";
 
-class GetOneUser {
-  public async run(id: number) {
-    const user = await prisma.user.findFirstOrThrow({
-      where: {
-        id,
-      },
-    });
+export class GetUser {
+  private userRepo: IUserRepo;
+  constructor(userRepo: IUserRepo) {
+    this.userRepo = userRepo;
+  }
 
-    return user;
+  async execute(id:number) {
+    const user = await this.userRepo.getUser(id);
+    return [user, { success: true, errors: null }];
   }
 }
-export const getOneuser = new GetOneUser();

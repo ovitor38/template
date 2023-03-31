@@ -1,16 +1,23 @@
+import { User } from "@prisma/client";
 import { userDto } from "./dto";
 import { UserModel } from "./model/user.model";
-import {
-  CreateUser,
-  deleteUser,
-  getOneuser,
-  getUsers,
-  updateUser,
-} from "./use-cases";
+import { CreateUser, GetUser } from "./use-cases";
 
-export class UserService {
-  constructor(private readonly createUser: CreateUser) {}
-  public async create(requestUser: UserModel) {
+export interface IUserService {
+  create(requestUser: UserModel): Promise<any>;
+  get(id: number): Promise<any>;
+}
+export class UserService implements IUserService {
+  constructor(
+    private readonly createUser: CreateUser,
+    private readonly getUser: GetUser
+  ) {}
+
+  public async create(requestUser: UserModel): Promise<any> {
     return await this.createUser.execute(userDto.parse(requestUser));
+  }
+
+  public async get(id: number): Promise<any> {
+    return await this.getUser.execute(id);
   }
 }
